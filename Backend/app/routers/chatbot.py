@@ -4,11 +4,14 @@ import psycopg2.extras
 from app.database import get_db_connection
 from app.schemas import QuestionRequest, EvaluationRequest, EmailSendRequest
 from app.services.email_service import send_report_email
-
+import os
 router = APIRouter()
 
-#  FIXED: used the correct api_key variable name without a typo
-client = genai.Client(api_key="AQ.Ab8RN6JRvUUC671wtKcn6BNoWbG336FuWXcGvwHcjyFQ2fpB3g")
+
+# Api is in .env file and not hardcoded for security reasons. Make sure to set GEMINI_API_KEY in your environment variables.
+# Api is in .env file and not hardcoded for security reasons. Make sure to set GEMINI_API_KEY in your environment variables.
+google_api_key = os.getenv("GEMINI_API_KEY") 
+client = genai.Client(api_key=google_api_key) # Initialize the Gemini API client with the API key from environment variables
 
 @router.post("/chatbot/get-question")
 def chatbot_get_question(req: QuestionRequest):
